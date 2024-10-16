@@ -49,6 +49,9 @@ jobs:
            key: ${{ secrets.SSH_PRIVATE_KEY }}
            port: ${{ secrets.PORT }}
            script: |
+
+              # Print partially masked HOST_STAGING
+              echo "HOST_STAGING starts with: ${${{ secrets.HOST_STAGING }}:0:4}..."
               
               ssh -i ~/.ssh/all_staging_key.pem ${{ secrets.USERNAME_STAGING }}@${{ secrets.HOST_STAGING }} 'bash -s' << 'EOF'
             
@@ -58,7 +61,5 @@ jobs:
               docker rmi ${{ secrets.CONTAINER_REGISTRY_STAGING }}:${{ secrets.IMAGE_TAG }}
               docker pull ${{ secrets.CONTAINER_REGISTRY_STAGING }}:${{ secrets.IMAGE_TAG }}
               cd /home/all-staging-user/all-services/all-learner-ai-services
-              echo 'HOST_NAME=${{ secrets.HOST }}' >> .env
-              cat .env
               sudo docker-compose up -d --force-recreate --no-deps
               EOF
