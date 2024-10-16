@@ -51,13 +51,14 @@ jobs:
            script: |
               
               ssh -i ~/.ssh/all_staging_key.pem ${{ secrets.USERNAME_STAGING }}@${{ secrets.HOST_STAGING }} 'bash -s' << 'EOF'
-             
+            
               docker login
               docker container stop ${{ secrets.CONTAINER_NAME }}
               docker rm ${{ secrets.CONTAINER_NAME }}
               docker rmi ${{ secrets.CONTAINER_REGISTRY_STAGING }}:${{ secrets.IMAGE_TAG }}
               docker pull ${{ secrets.CONTAINER_REGISTRY_STAGING }}:${{ secrets.IMAGE_TAG }}
               cd /home/all-staging-user/all-services/all-learner-ai-services
-              
+              echo 'HOST_NAME=${{ secrets.HOST }}' >> .env
+              cat .env
               sudo docker-compose up -d --force-recreate --no-deps
               EOF
