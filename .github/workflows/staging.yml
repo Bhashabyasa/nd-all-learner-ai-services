@@ -1,3 +1,4 @@
+
 name: STAGING DEPLOYMENT
 
 on:
@@ -31,7 +32,6 @@ jobs:
           tags:  ${{ secrets.CONTAINER_REGISTRY_STAGING }}:${{ secrets.IMAGE_TAG }}
         env:
           MY_ENV_VARS: ${{ secrets.MY_ENV_VARS_STAGING }}
-
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -40,16 +40,6 @@ jobs:
     -
       name: Checkout
       uses: actions/checkout@v2
-
-    -
-      name: Create and Upload .env to Remote Server
-      run: |
-        # Create the .env file locally
-        echo "${{ secrets.USERNAME_STAGING }}@${{ secrets.HOST_STAGING }}" > .env
-        
-        # Upload the .env file to the remote server
-        scp -i ~/.ssh/all_staging_key.pem -P ${{ secrets.PORT }} .env ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/ubuntu/.env
-
     -
       name: Deploy Stack
       uses: appleboy/ssh-action@master
@@ -59,9 +49,10 @@ jobs:
            key: ${{ secrets.SSH_PRIVATE_KEY }}
            port: ${{ secrets.PORT }}
            script: |
+
               
               ssh -i ~/.ssh/all_staging_key.pem ${{ secrets.USERNAME_STAGING }}@${{ secrets.HOST_STAGING }} 'bash -s' << 'EOF'
-              
+            
               docker login
               docker container stop ${{ secrets.CONTAINER_NAME }}
               docker rm ${{ secrets.CONTAINER_NAME }}
