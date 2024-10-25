@@ -50,7 +50,6 @@ jobs:
            port: ${{ secrets.PORT }}
            script: |
 
-              
               ssh -i ~/.ssh/all_staging_key.pem ${{ secrets.USERNAME_STAGING }}@${{ secrets.HOST_STAGING }} 'bash -s' << 'EOF'
             
               docker login
