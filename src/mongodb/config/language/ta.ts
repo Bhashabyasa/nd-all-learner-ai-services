@@ -1,7 +1,6 @@
 var ta_config = {
     vowel: ['ா', 'ி', 'ீ', 'ு', 'ூ', 'ெ', 'ே', 'ை', 'ொ', 'ோ', 'ௌ', '்',],
-    language_code: "ta",
-    max_milestone_level: 9
+    language_code: "ta"
 };
 
 export default ta_config;

@@ -9,7 +9,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppClusterService } from './app-cluster.service';
 import compression from '@fastify/compress';
 
-
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule.forRoot(process.env.DATABASE),
@@ -51,7 +50,7 @@ async function bootstrap() {
     methods: ['GET', 'POST', 'HEAD', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: false,
   });
- 
+
   await app.listen(process.env.PORT, '0.0.0.0');
 }
 AppClusterService.clusterize(bootstrap);
